@@ -1,0 +1,37 @@
+version: '3'
+services:
+  mysql_native:
+    image: mysql
+    container_name: spring_native.mysql_native
+    environment:
+      MYSQL_DATABASE: 'native'
+      MYSQL_USER: 'native'
+      MYSQL_PASSWORD: '1234'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+  flyway_native:
+    image: boxfuse/flyway
+    command: -url=jdbc:mysql://mysql_native -schemas=native -user=root -password=root -connectRetries=60 migrate
+    volumes:
+      - ./native/src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      - mysql_native
+
+  mysql_jvm:
+    image: mysql
+    container_name: spring_native.mysql_jvm
+    environment:
+      MYSQL_DATABASE: 'jvm'
+      MYSQL_USER: 'jvm'
+      MYSQL_PASSWORD: '1234'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3307:3306'
+  flyway_jvm:
+    image: boxfuse/flyway
+    command: -url=jdbc:mysql://mysql_jvm -schemas=jvm -user=root -password=root -connectRetries=60 migrate
+    volumes:
+      - ./jvm/src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      - mysql_jvm
