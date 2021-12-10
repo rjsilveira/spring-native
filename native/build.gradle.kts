@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "br.com.silveira.raphael"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -32,7 +32,11 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web"){
+        exclude(group = "org.apache.tomcat.embed", module = "tomcat-embed-core")
+        exclude(group = "org.apache.tomcat.embed", module = "tomcat-embed-websocket")
+    }
+    implementation("org.apache.tomcat.experimental:tomcat-embed-programmatic:${dependencyManagement.importedProperties["tomcat.version"]}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.github.microutils:kotlin-logging:2.1.15")
     implementation("mysql:mysql-connector-java")
