@@ -83,5 +83,26 @@ Rodar o arquivo .jar para iniciar a aplicação:
 java -jar build/libs/jvm-0.0.1-SNAPSHOT.jar
 ```
 
+Para rodar a aplicação de forma dockerizada, rodar o seguinte comando:
+```shell
+docker build -t jvm .
+docker run --rm --network host jvm:latest
+```
+
 ### Rodando a versão usando Imagem Nativa
 
+Para gerar o binário da aplicação, voce deve rodar:
+```shell
+./gradlew nativeCompile
+```
+
+e para rodar a aplicação:
+```shell
+./build/native/nativeCompile/native
+```
+
+Para rodar a aplicação de forma dockerizada, rodar o seguinte comando:
+```shell
+./gradlew bootBuildImage
+docker run --rm --network host native:0.0.1
+```
